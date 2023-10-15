@@ -1,0 +1,139 @@
+Расписать подробно каждую строчку этого кода комментариями или самостоятельно реализовать решение задачи:
+Дан массив положительных целых чисел и целевое число target. 
+Необходимо найти самую короткую подпоследовательность чисел в массиве, 
+сумма которых равна target. Верните эту самую короткую подпоследовательность.
+
+java:
+package org.example;
+
+import java.util.List;
+
+public class Window {
+
+public static void findShortestArray(List<Integer> arrayList, int targetSum){
+int leftBorder = 0;
+int rightBorder = 0;
+int sum = 0;
+
+scss
+Copy code
+int minLength = Integer.MAX_VALUE;
+int answerLeftBorder = 0;
+int answerRightBorder = 0;
+
+while(rightBorder < arrayList.size()){
+    sum += arrayList.get(rightBorder);
+    while(sum >= targetSum){
+        int windowLength = rightBorder - leftBorder + 1;
+        if(windowLength < minLength && sum == targetSum) {
+            answerLeftBorder = leftBorder;
+            answerRightBorder = rightBorder;
+            minLength = windowLength;
+        }
+        sum -= arrayList.get(leftBorder);
+        leftBorder++;
+    }
+    rightBorder++;
+}
+
+if(minLength != Integer.MAX_VALUE){
+    for(int i = answerLeftBorder; i <= answerRightBorder; i++) {
+        System.out.println(arrayList.get(i));
+    }
+}
+}
+
+public static void main(String[] args) {
+List<Integer> arrayList = List.of(1, 1, 1, 2, 4, 5);
+
+scss
+Copy code
+findShortestArray(arrayList, 3);
+}
+
+}
+
+js:
+
+function findShortestSubsequence(nums, target) {
+let left = 0;
+let right = 0;
+let currentSum = 0;
+let minLength = Infinity;
+let result = [];
+
+while (right < nums.length) {
+currentSum += nums[right];
+while (currentSum >= target) {
+if (right - left + 1 < minLength && currentSum === target) {
+minLength = right - left + 1;
+result = [left, right];
+}
+currentSum -= nums[left];
+left++;
+}
+right++;
+}
+
+if (minLength === Infinity) {
+return [-1]; // Если подпоследовательность не найдена
+}
+
+return nums.slice(result[0], result[1] + 1);
+
+}
+
+const nums = [2, 3, 1, 2, 4, 3];
+const target = 7;
+const result = findShortestSubsequence(nums, target);
+
+if (result.length === 1 && result[0] === -1) {
+console.log(Сумма {target} не может быть получена из элементов массива.);
+} else {
+    console.log(Самая короткая подпоследовательность суммирующаяся в {target} это: ${result.join(' ')});
+}
+
+задача в обоих языках (Java и JavaScript) заключается в нахождении самой короткой подпоследовательности чисел в массиве, 
+сумма которых равна целевому числу (target). Вот подробное описание каждой строки кода в обоих вариантах:
+
+Java:
+
+Импортируем необходимые библиотеки.
+Объявляем класс Window.
+Объявляем метод findShortestArray, который принимает список чисел arrayList и целевую сумму targetSum.
+Инициализируем переменные для левой и правой границ окна и переменную sum для текущей суммы.
+Инициализируем переменные minLength, answerLeftBorder, и answerRightBorder для отслеживания 
+самой короткой подпоследовательности.
+Запускаем цикл, который работает до тех пор, пока правая граница меньше размера списка arrayList.
+Увеличиваем sum на значение элемента списка arrayList, находящегося под индексом rightBorder.
+Запускаем внутренний цикл, который выполняется, когда текущая сумма sum больше или равна целевой сумме targetSum.
+Вычисляем длину окна windowLength.
+Если длина окна меньше текущей минимальной длины minLength и текущая сумма равна целевой сумме,
+ обновляем minLength и границы ответа answerLeftBorder и answerRightBorder.
+Вычитаем значение элемента списка arrayList под индексом leftBorder из текущей суммы и увеличиваем левую границу окна.
+Увеличиваем правую границу окна.
+Если минимальная длина minLength не равна максимальному значению Integer.MAX_VALUE, то есть подпоследовательность найдена,
+ выводим её элементы.
+
+JavaScript:
+
+Объявляем функцию findShortestSubsequence, которая принимает массив чисел nums и целевую сумму target.
+Инициализируем переменные left, right, currentSum, minLength и result.
+Запускаем цикл, который работает до тех пор, пока правая граница right меньше длины массива nums.
+Увеличиваем currentSum на значение элемента массива nums, находящегося под индексом right.
+Запускаем внутренний цикл, который выполняется, когда текущая сумма currentSum больше или равна целевой сумме target.
+Если длина окна (right - left + 1) меньше текущей минимальной длины minLength и текущая сумма равна целевой сумме,
+ обновляем minLength и result с индексами левой и правой границы окна.
+Вычитаем значение элемента массива nums под индексом left из текущей суммы и увеличиваем левую границу left.
+Увеличиваем правую границу right.
+После завершения цикла проверяем, если minLength равно бесконечности, возвращаем [-1], что означает,
+ что подпоследовательность не найдена.
+В противном случае возвращаем срез массива nums с элементами, начиная с result[0] и заканчивая result[1] + 1.
+Оба варианта решают задачу нахождения самой короткой подпоследовательности суммирующейся в target.
+
+
+
+
+
+
+
